@@ -12,7 +12,12 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+      if (element != null) {
+          this.element = element;
+          this.registerEvents();
+      } else {
+          throw new Error("cant create obj of TransactionsWidget.class because null-element has appeared in constructor");
+      }
   }
   /**
    * Регистрирует обработчики нажатия на

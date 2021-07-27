@@ -6,44 +6,64 @@
  * для последующей обработки
  * */
 class AsyncForm {
-  /**
-   * Если переданный элемент не существует,
-   * необходимо выкинуть ошибку.
-   * Сохраняет переданный элемент и регистрирует события
-   * через registerEvents()
-   * */
-  constructor(element) {
+    /**
+     * Если переданный элемент не существует,
+     * необходимо выкинуть ошибку.
+     * Сохраняет переданный элемент и регистрирует события
+     * через registerEvents()
+     * */
+    constructor(element) {
+        if (element != null) {
+            this.element = element;
+            this.registerEvents();
+        } else {
+            throw new Error("cant create obj of AsyncForm.class because null-element has appeared in constructor");
+        }
+    }
 
-  }
+    /**
+     * Необходимо запретить отправку формы и в момент отправки
+     * вызывает метод submit()
+     * */
+    registerEvents() {
+        const submitBtn = this.element.closest(".modal-content").getElementsByClassName("btn-primary").item(0);
+        submitBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            const formName = event.target.closest(".modal").getAttribute("data-modal-id");
+            const form = App.getForm(formName);
+            form.submit();
+        });
+    }
 
-  /**
-   * Необходимо запретить отправку формы и в момент отправки
-   * вызывает метод submit()
-   * */
-  registerEvents() {
+    /**
+     * Преобразует данные формы в объект вида
+     * {
+     *  'название поля формы 1': 'значение поля формы 1',
+     *  'название поля формы 2': 'значение поля формы 2'
+     * }
+     * */
+    getData() {
+        const formData = new FormData(this.element);
 
-  }
+        let object = {};
+        formData.forEach(function (value, key) {
+            object[key] = value;
+        });
+        return object;
+    }
 
-  /**
-   * Преобразует данные формы в объект вида
-   * {
-   *  'название поля формы 1': 'значение поля формы 1',
-   *  'название поля формы 2': 'значение поля формы 2'
-   * }
-   * */
-  getData() {
+    onSubmit(options) {
 
-  }
+    }
 
-  onSubmit(options){
-
-  }
-
-  /**
-   * Вызывает метод onSubmit и передаёт туда
-   * данные, полученные из метода getData()
-   * */
-  submit() {
-
-  }
+    /**
+     * Вызывает метод onSubmit и передаёт туда
+     * данные, полученные из метода getData()
+     * */
+    submit() {
+        const formName = this.element.closest(".modal").getAttribute("data-modal-id");
+        const form = App.getForm(formName);
+        const data = form.getData()
+        form.onSubmit(data);
+    }
 }
