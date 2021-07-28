@@ -30,6 +30,7 @@ class Modal {
         crossBtn.addEventListener("click", function (event) {
             event.preventDefault();
             let name = event.target.closest(".modal").getAttribute("data-modal-id");
+            if (name == "newAccount") name = "createAccount";
             App.getModal(name).onClose(event.target.closest(".modal"));
         })
 
@@ -46,7 +47,9 @@ class Modal {
    * Закрывает текущее окно (Modal.close())
    * */
     onClose(e) {
-        App.getModal(e.getAttribute("data-modal-id")).close();
+        let name = e.getAttribute("data-modal-id");
+        if (name == "newAccount") name = "createAccount";
+        App.getModal(name).close();
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display
