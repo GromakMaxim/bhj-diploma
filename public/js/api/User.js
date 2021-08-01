@@ -70,7 +70,6 @@ class User {
             responseType: 'json',
             data: data,
             callback: (err, response) => {
-                console.log(response)
                 if (response && response.user) User.setCurrent(response.user);
             }
         });

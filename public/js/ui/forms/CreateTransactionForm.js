@@ -50,7 +50,6 @@ class CreateTransactionForm extends AsyncForm {
     }
 
 
-
     /**
      * Создаёт новую транзакцию (доход или расход)
      * с помощью Transaction.create. По успешному результату
@@ -60,11 +59,12 @@ class CreateTransactionForm extends AsyncForm {
     onSubmit(data) {
         Transaction.create(data, function (err, response) {
             if (response.success === true) {
-                const formInc = App.getForm("newIncome");
-                if (formInc != undefined) formInc.close();
+                document.getElementById("new-income-form").reset();
+                App.getModal("newIncome").close();
 
-                const formExp = App.getForm("newExpense");
-                if (formExp != undefined) formExp.close();
+                document.getElementById("new-expense-form").reset();
+                App.getModal("newExpense").close();
+
                 App.update();
             }
         })
