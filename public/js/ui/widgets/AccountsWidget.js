@@ -48,8 +48,8 @@ class AccountsWidget {
    * метода renderItem()
    * */
     update() {
-        const currentUserJson = localStorage.getItem("user");
-        if (currentUserJson != null) {
+        const currentUserJson = User.current();
+        if (currentUserJson != null && currentUserJson != undefined) {
             let tempObj = JSON.parse(currentUserJson);
             Account.list(tempObj, function (err, response) {
                 if (response.success) {
@@ -68,9 +68,7 @@ class AccountsWidget {
   clear() {
       const accounts = document.getElementsByClassName("accounts-panel").item(0).children;
       for (let element of accounts) {
-          if (element.classList.contains("account")) {
-              element.remove();
-          }
+          if (element.classList.contains("account")) element.remove();
       }
   }
 

@@ -37,7 +37,7 @@ class TransactionsPage {
         deleteAcoountButton.addEventListener("click", function (event) {
             event.preventDefault();
             App.getPage("transactions").removeAccount();
-        })
+        });
     }
 
     /**
@@ -75,8 +75,13 @@ class TransactionsPage {
         if (id != null && id != undefined) {
             const areYouSure = confirm("Do you really want to delete the transaction? [" + title + " : " + date + "]");
             if (areYouSure) {
-                currentTransaction.remove();
-                App.update();
+                Transaction.remove(id, function (err, response) {
+                    if (response.success === true) {
+                        console.log("transaction id:" + id + " was removed successfully");
+                        App.update();
+                    }
+                })
+                
             }
         }
     }

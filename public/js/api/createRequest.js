@@ -3,7 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options) => {
-    //console.log(options)
+    console.log(options)
     let method = options.method;
 
     const xhr = new XMLHttpRequest;
@@ -25,16 +25,30 @@ const createRequest = (options) => {
         } else {
             let fd = new FormData;
 
-            if (method.toUpperCase() === "PUT") {
+            if (method.toUpperCase() === "PUT" && options.url == "/account") {
                 fd.append("name", options.data.name);
                 xhr.open(method, "http://localhost:8000" + options.url + "/?name=" + options.data.name);
                 console.log("request was send http://localhost:8000" + options.url + "/?name=" + options.data.name)
             }
 
+            if (method.toUpperCase() === "PUT" && options.url == "/transaction") {
+                fd.append("type", options.data.type);
+                fd.append("name", options.data.name);
+                fd.append("sum", parseInt(options.data.sum,10));
+                fd.append("account_id", options.data.account_id);
+
+                xhr.open(method, "http://localhost:8000" + options.url + "/?name=" + options.data.name);
+                console.log("request was send http://localhost:8000" + options.url + "/?name=" + options.data.name)
+            }
+
             if (method.toUpperCase() === "DELETE") {
-                fd.append("id", options.data.accound_id);
-                xhr.open(method, "http://localhost:8000" + options.url + "/?name=" + options.data.accound_id);
-                console.log("request was send http://localhost:8000" + options.url + "/?id=" + options.data.accound_id);
+                let id = "";
+                if (options.data.accound_id != undefined) id = options.data.accound_id;
+                else id = options.data;
+                
+                fd.append("id", id);
+                xhr.open(method, "http://localhost:8000" + options.url + "/?id=" + id);
+                console.log("request was send http://localhost:8000" + options.url + "/?id=" + id);
             } else {
                 fd.append("email", options.data.email);
                 fd.append("password", options.data.password);

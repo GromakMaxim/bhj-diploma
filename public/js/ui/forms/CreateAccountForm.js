@@ -9,7 +9,6 @@ class CreateAccountForm extends AsyncForm {
      * и сбрасывает форму
      * */
     onSubmit(data) {
-        console.log(data)
         Account.create(data, function (err, response) {
             if (response.success === true) {
                 console.log(response)
