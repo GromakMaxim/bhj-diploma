@@ -71,6 +71,7 @@ class User {
             data: data,
             callback: (err, response) => {
                 if (response && response.user) User.setCurrent(response.user);
+                callback(err, response);
             }
         });
     }

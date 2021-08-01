@@ -23,6 +23,7 @@ class TransactionsPage {
      * Вызывает метод render для отрисовки страницы
      * */
     update() {
+
     }
 
     /**
@@ -133,9 +134,8 @@ class TransactionsPage {
      * в формат «10 марта 2019 г. в 03:20»
      * */
     formatDate(date) {
-        let day = date.split(" ")[0].split("-")[2];
-
         const d = new Date(date);
+
         let month = "";
         if (d.getMonth() == 0) month = "января";
         if (d.getMonth() == 1) month = "февраля";
@@ -150,7 +150,8 @@ class TransactionsPage {
         if (d.getMonth() == 10) month = "ноября";
         if (d.getMonth() == 11) month = "декабря";
 
-        const resultString = day + " " +
+
+        const resultString = d.getDate() + " " +
             month + " " +
             d.getFullYear() + "г. в " +
             d.getHours() + ":" + d.getMinutes();
