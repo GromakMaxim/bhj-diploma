@@ -23,7 +23,8 @@ class TransactionsPage {
      * Вызывает метод render для отрисовки страницы
      * */
     update() {
-
+        let options=App.getPage("transactions")["lastOptions"];
+        App.getPage("transactions").render(options);
     }
 
     /**
@@ -56,7 +57,7 @@ class TransactionsPage {
             if (areYouSure) {
                 Account.remove(lastOpt, function (err, response) {
                     if (response.success === true) App.getPage("transactions").clear();
-                    App.updateWidgets();
+                    App.update();
                 })
             }
         }
