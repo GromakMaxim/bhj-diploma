@@ -100,9 +100,11 @@ class TransactionsPage {
 
             Account.get(options.accound_id, function (err, response) {
                 if (response.success === true) {
+                    let newTitle = response.data.name;
                     Transaction.list(response.data.id, function (err, response) {
                         if (response.success === true) {
-                            App.getPage("transactions").renderTransactions(response.data)
+                            App.getPage("transactions").renderTransactions(response.data);
+                            App.getPage("transactions").renderTitle(newTitle);
                         }
                     })
                 }
@@ -126,8 +128,7 @@ class TransactionsPage {
      * Устанавливает заголовок в элемент .content-title
      * */
     renderTitle(name) {
-        const title = document.getElementsByClassName("content-title").item(0);
-        title.textContent = name;
+        document.getElementsByClassName("content-title").item(0).textContent = name;
     }
 
     /**
