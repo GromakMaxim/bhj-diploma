@@ -56,8 +56,10 @@ class TransactionsPage {
             var areYouSure = confirm("Do you really want to delete this account?");
             if (areYouSure) {
                 Account.remove(lastOpt, function (err, response) {
-                    if (response.success === true) App.getPage("transactions").clear();
-                    App.update();
+                    if (response.success === true) {
+                        App.getPage("transactions").clear();
+                        App.updateWidgets();
+                    }
                 })
             }
         }

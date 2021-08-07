@@ -2,7 +2,6 @@
  * Класс AccountsWidget управляет блоком
  * отображения счетов в боковой колонке
  * */
-
 class AccountsWidget {
     /**
      * Устанавливает текущий элемент в свойство element
@@ -67,9 +66,10 @@ class AccountsWidget {
      * в боковой колонке
      * */
     clear() {
-        const accounts = document.getElementsByClassName("accounts-panel").item(0).children;
-        for (let element of accounts) {
-            if (element.classList.contains("account")) element.remove();
+        let accounts = document.getElementsByClassName("accounts-panel").item(0).children;
+
+        while (accounts[1]) {
+            accounts[1].parentNode.removeChild(accounts[1]);
         }
     }
 
@@ -124,16 +124,21 @@ class AccountsWidget {
      * и добавляет его внутрь элемента виджета
      * */
     renderItem(data) {
-        const accPanel = document.getElementsByClassName("accounts-panel").item(0);
         App.getWidget("accounts").clear();
+        add();
 
-        for (let item of data) {
-            const el = App.getWidget("accounts").getAccountHTML(item);
-            el.addEventListener("click", function (event) {
-                event.preventDefault();
-                App.getWidget("accounts").onSelectAccount(el);
-            })
-            accPanel.appendChild(el);
+        function add() {
+            for (let item of data) {
+                let accPanel = document.getElementsByClassName("accounts-panel").item(0);
+                let el = App.getWidget("accounts").getAccountHTML(item);
+                el.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    App.getWidget("accounts").onSelectAccount(el);
+                });
+                let arr = Array.from(document.getElementsByClassName("accounts-panel").item(0).children);
+                let found = arr.find((item) => item.getAttribute("data-id") === el.getAttribute("data-id"));
+                if (!found)accPanel.appendChild(el);
+            }
         }
     }
 }
